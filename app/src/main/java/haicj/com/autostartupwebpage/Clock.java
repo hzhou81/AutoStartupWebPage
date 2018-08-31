@@ -12,7 +12,7 @@ import java.util.List;
  * @author 孙汇洲
  */
 public final class Clock extends Thread {
-    public static final int waitTime=15000;
+    public static final int waitTime=10000;
     // 消息键值
     private static final int MESSAGE_KEY = 1;
 

@@ -7,18 +7,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
 public class mainActivity extends AppCompatActivity {
-    public static final String url="http://www.haicj.com/";
-
+    public static final String url="http://10.0.0.205/sl/jk/jkpd.jsp";
+    //public static final String url="http://www.haicj.com/";
 
     private Clock clock = null;// 时钟对象
     /**
@@ -103,7 +108,17 @@ public class mainActivity extends AppCompatActivity {
         WebSettings settings = mContentView.getSettings();
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
+        settings.setJavaScriptEnabled(true);
         mContentView.loadUrl(url);
+        /*
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+                mContentView.loadUrl(url);
+            }
+        },10000);
+        */
         clock = Clock.getInstance();
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
@@ -180,6 +195,8 @@ public class mainActivity extends AppCompatActivity {
             @Override
             public void onChange(Date date) {
                 mContentView.loadUrl(url);
+                clock.interrupt();
+                clock.removeAllListener();
             }
         });
         clock.start();
@@ -188,7 +205,7 @@ public class mainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        clock.interrupt();
-        clock.removeAllListener();
+        //clock.interrupt();
+        //clock.removeAllListener();
     }
 }
